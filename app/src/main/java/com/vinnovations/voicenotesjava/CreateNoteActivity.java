@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,9 +24,10 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     // Declare a member variable for the Button or ImageView
 
-    TextView textView;
+    TextView txt_desc;
+    EditText edt_topic;
     int REQUEST_CODE_SPEECH_INPUT = 123;
-    String spokenStringText;
+    String notes_title, notes_desc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,10 @@ public class CreateNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_note);
 
 
-        textView = findViewById(R.id.textView);
+        txt_desc = findViewById(R.id.txt_desc);
+        edt_topic = findViewById(R.id.edt_topic);
+//        notes_title = String.valueOf(edt_topic.getText());
+//        notes_title = edt_topic.getText().toString();
 
 
         // Initialize the SpeechRecognizer
@@ -46,10 +52,25 @@ public class CreateNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startVoiceInput();
-//                if (spokenStringText != null){
-//                    textView.setText(spokenStringText);
-//                }
 
+            }
+        });
+
+        // saving in db
+        Button btn_save = findViewById(R.id.btn_save);
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDBHandler db = new MyDBHandler(CreateNoteActivity.this);
+                notes_title = String.valueOf(edt_topic.getText());
+                Log.v("myMessage", "hello" + notes_title);
+                if(notes_title != null && notes_desc != null){
+                    NotesEntity ne = new NotesEntity(notes_title,notes_desc);
+                    db.addNotes(ne);
+                }
+                Intent intent = new Intent(CreateNoteActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -73,7 +94,6 @@ public class CreateNoteActivity extends AppCompatActivity {
 
             // Get the first result (most likely the user's intended speech)
             String spokenText = results.get(0);
-            spokenStringText = String.valueOf(spokenText);
             // Do something with the spoken text
             processSpokenText(spokenText);
         }
@@ -82,9 +102,9 @@ public class CreateNoteActivity extends AppCompatActivity {
     private void processSpokenText(String spokenText) {
         // Handle the spoken text here
         // Add your desired actions or logic
-//        spokenStringText = spokenText;
         if (spokenText != null){
-            textView.setText(spokenText);
+            txt_desc.setText(spokenText);
+            notes_desc = spokenText;
         }
 
     }
