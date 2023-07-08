@@ -24,8 +24,8 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     // Declare a member variable for the Button or ImageView
 
-    TextView txt_desc;
-    EditText edt_topic;
+
+    EditText edt_topic, edt_desc;
     int REQUEST_CODE_SPEECH_INPUT = 123;
     String notes_title, notes_desc;
 
@@ -35,9 +35,9 @@ public class CreateNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_note);
 
 
-        txt_desc = findViewById(R.id.txt_desc);
+        edt_desc = findViewById(R.id.edt_desc);
         edt_topic = findViewById(R.id.edt_topic);
-//        notes_title = String.valueOf(edt_topic.getText());
+//        notes_title = String.valueOf(edt_topic.getText()); // never try to get the value from edittext in oncreate it will always give null
 //        notes_title = edt_topic.getText().toString();
 
 
@@ -63,7 +63,8 @@ public class CreateNoteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 MyDBHandler db = new MyDBHandler(CreateNoteActivity.this);
                 notes_title = String.valueOf(edt_topic.getText());
-                Log.v("myMessage", "hello" + notes_title);
+                notes_desc = String.valueOf(edt_desc.getText());
+//                Log.v("myMessage", "hello" + notes_title);
                 if(notes_title != null && notes_desc != null){
                     NotesEntity ne = new NotesEntity(notes_title,notes_desc);
                     db.addNotes(ne);
@@ -103,8 +104,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         // Handle the spoken text here
         // Add your desired actions or logic
         if (spokenText != null){
-            txt_desc.setText(spokenText);
-            notes_desc = spokenText;
+            edt_desc.setText(spokenText);
         }
 
     }
