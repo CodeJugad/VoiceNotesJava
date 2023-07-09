@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -65,13 +66,16 @@ public class CreateNoteActivity extends AppCompatActivity {
                 notes_title = String.valueOf(edt_topic.getText());
                 notes_desc = String.valueOf(edt_desc.getText());
 //                Log.v("myMessage", "hello" + notes_title);
-                if(notes_title != null && notes_desc != null){
+                if(notes_title.isEmpty()){
+                    Toast.makeText(CreateNoteActivity.this, "Please Enter Title", Toast.LENGTH_SHORT).show();
+                }else{
                     NotesEntity ne = new NotesEntity(notes_title,notes_desc);
                     db.addNotes(ne);
+                    Intent intent = new Intent(CreateNoteActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
-                Intent intent = new Intent(CreateNoteActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+
             }
         });
     }
