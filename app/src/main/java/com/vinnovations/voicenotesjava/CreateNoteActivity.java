@@ -132,4 +132,10 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(CreateNoteActivity.this, MainActivity.class);
+        startActivity(i);
+        finish();
+    }
 }

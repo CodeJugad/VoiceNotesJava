@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 // Add your desired action or navigation logic
                 Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
