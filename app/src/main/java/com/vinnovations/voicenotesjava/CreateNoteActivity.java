@@ -104,7 +104,16 @@ public class CreateNoteActivity extends AppCompatActivity {
         // Handle the spoken text here
         // Add your desired actions or logic
         if (spokenText != null){
-            edt_desc.setText(spokenText);
+            String s1 = String.valueOf(edt_desc.getText());
+//            if(s1 == null){   // strings can be null or empty learn this concept
+            if(s1.isEmpty()){
+                edt_desc.setText(spokenText);
+            }else{
+//                String s1 = String.valueOf(edt_desc.getText());
+//                String s2 = s1.concat(spokenText);
+                String s2 = s1 + " " + spokenText;
+                edt_desc.setText(s2);
+            }
         }
 
     }
