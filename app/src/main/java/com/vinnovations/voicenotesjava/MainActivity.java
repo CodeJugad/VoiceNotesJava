@@ -22,11 +22,12 @@ public class MainActivity extends AppCompatActivity {
     List<String> notesTopicList = new ArrayList<>();
     List<String> notesDescList = new ArrayList<>();
     MyDBHandler db;
+    private MainActivity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Log.e("create", "create");
+         mActivity = this;
         setContentView(R.layout.activity_main);
 
         ListView listView = findViewById(R.id.listview);
@@ -105,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // Handle OK button click
                         db.deleteAll(); // this is not working
+                        // Reload the activity
+                        Intent intent = getIntent();
+                        mActivity.finish();
+                        mActivity.startActivity(intent);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -117,6 +122,14 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    // Example usage within another method
+    public void onReloadButtonClick(View view) {
+        reloadActivity();
+    }
+    public void reloadActivity() {
+        recreate();
     }
 
 
