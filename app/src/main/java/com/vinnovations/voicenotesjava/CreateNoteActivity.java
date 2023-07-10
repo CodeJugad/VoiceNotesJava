@@ -27,8 +27,10 @@ public class CreateNoteActivity extends AppCompatActivity {
 
 
     EditText edt_topic, edt_desc;
-    int REQUEST_CODE_SPEECH_INPUT = 123;
+    int REQUEST_CODE_SPEECH_INPUT = 123, count = 0;
     String notes_title, notes_desc;
+    String position;
+    Button btn_save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +40,21 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         edt_desc = findViewById(R.id.edt_desc);
         edt_topic = findViewById(R.id.edt_topic);
+        btn_save = findViewById(R.id.btn_save);
 //        notes_title = String.valueOf(edt_topic.getText()); // never try to get the value from edittext in oncreate it will always give null
 //        notes_title = edt_topic.getText().toString();
 
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            String title = bundle.getString("title");
+            String desc = bundle.getString("desc");
+            position = bundle.getString("position");
+            count = 1;
+            processSpokenText(desc);
+            edt_topic.setText(title);
+            btn_save.setText("Update");
+        }
 
         // Initialize the SpeechRecognizer
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
@@ -53,15 +67,15 @@ public class CreateNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startVoiceInput();
-
             }
         });
 
         // saving in db
-        Button btn_save = findViewById(R.id.btn_save);
+
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 MyDBHandler db = new MyDBHandler(CreateNoteActivity.this);
                 notes_title = String.valueOf(edt_topic.getText());
                 notes_desc = String.valueOf(edt_desc.getText());
@@ -69,12 +83,19 @@ public class CreateNoteActivity extends AppCompatActivity {
                 if(notes_title.isEmpty()){
                     Toast.makeText(CreateNoteActivity.this, "Please Enter Title", Toast.LENGTH_SHORT).show();
                 }else{
-                    NotesEntity ne = new NotesEntity(notes_title,notes_desc);
-                    db.addNotes(ne);
-                    Intent intent = new Intent(CreateNoteActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+                    NotesEntity notesEn;
+                    if(count == 1){
+                        notesEn = new NotesEntity(Integer.parseInt(position),notes_title,notes_desc);
+                        db.updateNotes(notesEn);
+                    }else{
+                        notesEn = new NotesEntity(notes_title,notes_desc);
+                        db.addNotes(notesEn);
+                    }
+                        Intent intent = new Intent(CreateNoteActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
 
             }
         });
