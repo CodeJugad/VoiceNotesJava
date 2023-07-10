@@ -27,7 +27,8 @@ public class CreateNoteActivity extends AppCompatActivity {
 
 
     EditText edt_topic, edt_desc;
-    int REQUEST_CODE_SPEECH_INPUT = 123, count = 0;
+    int REQUEST_CODE_SPEECH_INPUT = 123;
+    String count = "0";
     String notes_title, notes_desc;
     String position;
     Button btn_save;
@@ -50,10 +51,15 @@ public class CreateNoteActivity extends AppCompatActivity {
             String title = bundle.getString("title");
             String desc = bundle.getString("desc");
             position = bundle.getString("position");
-            count = 1;
+            count = bundle.getString("count");
+            if (count.equals("1")){
+                btn_save.setText("Update");
+            }else if(count.equals("2")){
+                btn_save.setText("Delete");
+            }
             processSpokenText(desc);
             edt_topic.setText(title);
-            btn_save.setText("Update");
+
         }
 
         // Initialize the SpeechRecognizer
@@ -84,10 +90,13 @@ public class CreateNoteActivity extends AppCompatActivity {
                     Toast.makeText(CreateNoteActivity.this, "Please Enter Title", Toast.LENGTH_SHORT).show();
                 }else{
                     NotesEntity notesEn;
-                    if(count == 1){
+                    if(count.equals("1")){
                         notesEn = new NotesEntity(Integer.parseInt(position),notes_title,notes_desc);
                         db.updateNotes(notesEn);
-                    }else{
+                    }else if(count.equals("2")){
+                        notesEn = new NotesEntity(Integer.parseInt(position),notes_title,notes_desc);
+                        db.deleteNotesEntity(notesEn);
+                    } else{
                         notesEn = new NotesEntity(notes_title,notes_desc);
                         db.addNotes(notesEn);
                     }

@@ -54,11 +54,30 @@ public class NotesDescription extends BottomSheetDialogFragment {
                 args.putString("title", txt_title.getText().toString() );
                 args.putString("desc", txt_desc.getText().toString() );
                 args.putString("position", position);
+                args.putString("count", "1");
                 notesDesc.setArguments(args);
                 Intent i = new Intent(getActivity(), CreateNoteActivity.class);
                 i.putExtras(args);
                 startActivity(i);
+                getActivity().finish();
 
+            }
+        });
+
+        img_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NotesDescription notesDesc = new NotesDescription();
+                Bundle args = new Bundle();
+                args.putString("title", txt_title.getText().toString() );
+                args.putString("desc", txt_desc.getText().toString() );
+                args.putString("position", position);
+                args.putString("count", "2");
+                notesDesc.setArguments(args);
+                Intent i = new Intent(getActivity(), CreateNoteActivity.class);
+                i.putExtras(args);
+                startActivity(i);
+                getActivity().finish();
             }
         });
 

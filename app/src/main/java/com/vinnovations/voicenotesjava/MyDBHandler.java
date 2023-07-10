@@ -87,4 +87,58 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 new String[]{String.valueOf(notesEntity.getId())});
 
     }
+
+    public void deleteNotesById(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(Params.TABLE_NAME, Params.KEY_ID +"=?", new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+    public void deleteNotesEntity(NotesEntity notesEntity){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String tableName = Params.TABLE_NAME;
+        String rowIdentifier = Params.KEY_ID;
+        String rowValue = String.valueOf(notesEntity.getId());
+
+        String sql = "DELETE FROM " + tableName + " WHERE " + rowIdentifier + " = '" + rowValue + "'";
+
+        db.execSQL(sql);
+//        db.delete(Params.TABLE_NAME, Params.KEY_ID +"=?", new String[]{String.valueOf(notesEntity.getId())});
+        db.close();
+    }
+
+    public void deleteAll(){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String tableName = Params.TABLE_NAME;
+
+        String sql = "DELETE FROM " + tableName;
+
+        db.execSQL(sql);
+        db.close();
+    }
+
+    public int getId(String title, String desc){
+        List<NotesEntity> notesList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Generate the query to read from the database
+        String select = "SELECT * FROM " + Params.TABLE_NAME;
+        Cursor cursor = db.rawQuery(select, null);
+
+        //Loop through now
+        int id = -1;
+        if(cursor.moveToFirst()){
+            do{
+                NotesEntity notesEntity = new NotesEntity();
+                if (title.equals(cursor.getString(1)) && desc.equals(cursor.getString(2))){
+                    id = Integer.parseInt(cursor.getString(0));
+                }
+
+            }while(cursor.moveToNext());
+        }
+        db.close();
+        return id;
+    }
 }
