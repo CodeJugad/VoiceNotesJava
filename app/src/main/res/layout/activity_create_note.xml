@@ -20,19 +20,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edt_desc"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:hint="click on mic to enter the notes"
-        android:background="@null"
+        app:layout_constraintBottom_toTopOf="@+id/speech_mic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_topic" />
+        app:layout_constraintTop_toBottomOf="@+id/edt_topic">
+
+        <EditText
+            android:id="@+id/edt_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="click on mic to enter the notes"
+            android:inputType="textMultiLine"
+            android:lines="100"
+            android:minLines="25"
+            android:gravity="top"/>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/btn_save"

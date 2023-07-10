@@ -5,13 +5,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.viewmodel.CreationExtras;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +30,6 @@ public class NotesDescription extends BottomSheetDialogFragment {
         txt_desc = view.findViewById(R.id.txt_desc);
         img_edit = view.findViewById(R.id.img_edit);
         img_delete = view.findViewById(R.id.img_delete);
-
 
 
         Bundle args = getArguments();
