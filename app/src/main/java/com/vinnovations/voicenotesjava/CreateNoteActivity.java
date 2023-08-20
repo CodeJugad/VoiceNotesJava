@@ -45,7 +45,26 @@ public class CreateNoteActivity extends AppCompatActivity {
 //        notes_title = String.valueOf(edt_topic.getText()); // never try to get the value from edittext in oncreate it will always give null
 //        notes_title = edt_topic.getText().toString();
 
+        // -------------------- getting text from other apps
+//        Intent intent = getIntent();
+//        if(intent != null){
+//            String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+//            processSpokenText(sharedText);
+//        }
+        // --------------
+        Intent intent = getIntent();
+        if (intent != null && intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEND)) {
+            if (intent.getType() != null && intent.getType().equals("text/plain")) {
+                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                if (sharedText != null) {
+                    // Process the shared URL string as needed
+                    processSpokenText(sharedText);
+                }
+            }
+        }
 
+
+        // ------------------------ when data is coming from main activity or fragment to update or delete
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             String title = bundle.getString("title");

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class NotesDescription extends BottomSheetDialogFragment {
+public class FragmentNotesDescription extends BottomSheetDialogFragment {
 
     private TextView txt_title,txt_desc;
     String title, desc, position;
@@ -45,7 +45,7 @@ public class NotesDescription extends BottomSheetDialogFragment {
         img_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NotesDescription notesDesc = new NotesDescription();
+                FragmentNotesDescription notesDesc = new FragmentNotesDescription();
                 Bundle args = new Bundle();
                 args.putString("title", txt_title.getText().toString() );
                 args.putString("desc", txt_desc.getText().toString() );
@@ -63,7 +63,7 @@ public class NotesDescription extends BottomSheetDialogFragment {
         img_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NotesDescription notesDesc = new NotesDescription();
+                FragmentNotesDescription notesDesc = new FragmentNotesDescription();
                 Bundle args = new Bundle();
                 args.putString("title", txt_title.getText().toString() );
                 args.putString("desc", txt_desc.getText().toString() );

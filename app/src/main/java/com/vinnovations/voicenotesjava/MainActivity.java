@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        db = new MyDBHandler(MainActivity.this);
+//        db = new MyDBHandler(MainActivity.this);
+
         List<NotesEntity> allNotes = db.getAllNotes();
         for(NotesEntity notesEntity: allNotes) {
             notesTopicList.add(notesEntity.getTopicName());
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 // Handle item click event here
                 String selectedItem = (String) parent.getItemAtPosition(position);
                 int notesId = db.getId(selectedItem, notesDescList.get(position));
-                NotesDescription notesDesc = new NotesDescription();
+                FragmentNotesDescription notesDesc = new FragmentNotesDescription();
                 Bundle args = new Bundle();
                 args.putString("title", selectedItem);
                 args.putString("desc", notesDescList.get(position));
